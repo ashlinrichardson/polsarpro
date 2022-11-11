@@ -147,38 +147,38 @@ if(get_commandline_prm(argc,argv,"-data",no_cmd_prm,NULL,0,UsageHelpDataFormat))
   }
 
 if(argc < 19) {
-  edit_error("Not enough input arguments\n Usage:\n",UsageHelp);
+    edit_error("Not enough input arguments\n Usage:\n",UsageHelp);
   } else {
-  get_commandline_prm(argc,argv,"-id",str_cmd_prm,in_dir,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-od",str_cmd_prm,out_dir,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-iodf",str_cmd_prm,PolType,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-nwr",int_cmd_prm,&NwinL,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-nwc",int_cmd_prm,&NwinC,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-ofr",int_cmd_prm,&Off_lig,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-ofc",int_cmd_prm,&Off_col,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-fnr",int_cmd_prm,&Sub_Nlig,1,UsageHelp);
-  get_commandline_prm(argc,argv,"-fnc",int_cmd_prm,&Sub_Ncol,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-id",str_cmd_prm,in_dir,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-od",str_cmd_prm,out_dir,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-iodf",str_cmd_prm,PolType,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-nwr",int_cmd_prm,&NwinL,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-nwc",int_cmd_prm,&NwinC,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-ofr",int_cmd_prm,&Off_lig,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-ofc",int_cmd_prm,&Off_col,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-fnr",int_cmd_prm,&Sub_Nlig,1,UsageHelp);
+    get_commandline_prm(argc,argv,"-fnc",int_cmd_prm,&Sub_Ncol,1,UsageHelp);
 
-  get_commandline_prm(argc,argv,"-errf",str_cmd_prm,file_memerr,0,UsageHelp);
+    get_commandline_prm(argc,argv,"-errf",str_cmd_prm,file_memerr,0,UsageHelp);
 
-  MemoryAlloc = -1; MemoryAlloc = CheckFreeMemory();
-  MemoryAlloc = my_max(MemoryAlloc,1000);
+    MemoryAlloc = -1; MemoryAlloc = CheckFreeMemory();
+    MemoryAlloc = my_max(MemoryAlloc,1000);
 
-  PSP_Threads = omp_get_max_threads();
-  if (PSP_Threads <= 2) {
-    PSP_Threads = 1;
-    } else {
-	PSP_Threads = PSP_Threads - 1;
-	}
-  omp_set_num_threads(PSP_Threads);
+    PSP_Threads = omp_get_max_threads();
+    if (PSP_Threads <= 2) {
+      PSP_Threads = 1;
+    } else{
+      PSP_Threads = PSP_Threads - 1;
+    }
+    omp_set_num_threads(PSP_Threads);
 
-  FlagValid = 0;strcpy(file_valid,"");
-  get_commandline_prm(argc,argv,"-mask",str_cmd_prm,file_valid,0,UsageHelp);
-  if (strcmp(file_valid,"") != 0) FlagValid = 1;
+    FlagValid = 0;strcpy(file_valid,"");
+    get_commandline_prm(argc,argv,"-mask",str_cmd_prm,file_valid,0,UsageHelp);
+    if (strcmp(file_valid,"") != 0) FlagValid = 1;
 
-  Config = 0;
-  for (ii=0; ii<NPolType; ii++) if (strcmp(PolTypeConf[ii],PolType) == 0) Config = 1;
-  if (Config == 0) edit_error("\nWrong argument in the Polarimetric Data Format\n",UsageHelpDataFormat);
+    Config = 0;
+    for (ii=0; ii<NPolType; ii++) if (strcmp(PolTypeConf[ii],PolType) == 0) Config = 1;
+    if (Config == 0) edit_error("\nWrong argument in the Polarimetric Data Format\n",UsageHelpDataFormat);
   }
 
   if (strcmp(PolType,"S2")==0) strcpy(PolType,"S2T3");
@@ -315,16 +315,16 @@ SpanMax = -INIT_MINMAX;
   
 for (Nb = 0; Nb < NbBlock; Nb++) {
   ligDone = 0;
-  if (NbBlock > 2) {printf("%f\r", 100. * Nb / (NbBlock - 1));fflush(stdout);}
+  if (NbBlock > 2) { printf("%f\r", 100. * Nb / (NbBlock - 1)); fflush(stdout); }
 
   if (FlagValid == 1) read_block_matrix_float(in_valid, Valid, Nb, NbBlock, NligBlock[Nb], Sub_Ncol, NwinL, NwinC, Off_lig, Off_col, Ncol);
 
   if (strcmp(PolType,"S2")==0) {
     read_block_S2_noavg(in_datafile, M_in, PolTypeOut, NpolarOut, Nb, NbBlock, NligBlock[Nb], Sub_Ncol, NwinL, NwinC, Off_lig, Off_col, Ncol);
-    } else {
+  } else {
   /* Case of C,T or I */
     read_block_TCI_noavg(in_datafile, M_in, NpolarOut, Nb, NbBlock, NligBlock[Nb], Sub_Ncol, NwinL, NwinC, Off_lig, Off_col, Ncol);
-    }
+  }
   if (strcmp(PolTypeOut,"C3")==0) C3_to_T3(M_in, NligBlock[Nb], Sub_Ncol + NwinC, 0, 0);
 
 #pragma omp parallel for private(col, M_avg) firstprivate(Span) shared(ligDone, SpanMin, SpanMax)
@@ -334,15 +334,15 @@ for (Nb = 0; Nb < NbBlock; Nb++) {
     M_avg = matrix_float(NpolarOut,Sub_Ncol);
     average_TCI(M_in, Valid, NpolarOut, M_avg, lig, Sub_Ncol, NwinL, NwinC, NwinLM1S2, NwinCM1S2);
     for (col = 0; col < Sub_Ncol; col++) {
-      if (Valid[NwinLM1S2+lig][NwinCM1S2+col] == 1.) {
-        Span = M_avg[T311][col]+M_avg[T322][col]+M_avg[T333][col];
+      if (Valid[NwinLM1S2 + lig][NwinCM1S2 + col] == 1.) {
+        Span = M_avg[T311][col] + M_avg[T322][col] + M_avg[T333][col];
         if (Span >= SpanMax) SpanMax = Span;
         if (Span <= SpanMin) SpanMin = Span;
-        }       
-      }
-    free_matrix_float(M_avg,NpolarOut);
+      }       
     }
-  } // NbBlock
+    free_matrix_float(M_avg,NpolarOut);
+  }
+} // NbBlock
 
   if (SpanMin < eps) SpanMin = eps;
 
