@@ -141,24 +141,24 @@ strcat(UsageHelpDataFormat,"\n");
 
 if(get_commandline_prm(argc,argv,"-help",no_cmd_prm,NULL,0,UsageHelp)) {
   printf("\n Usage:\n%s\n",UsageHelp); exit(1);
-  }
+}
 if(get_commandline_prm(argc,argv,"-data",no_cmd_prm,NULL,0,UsageHelpDataFormat)) {
   printf("\n Usage:\n%s\n",UsageHelpDataFormat); exit(1);
-  }
+}
 
 if(argc < 19) {
     edit_error("Not enough input arguments\n Usage:\n",UsageHelp);
   } else {
-    get_commandline_prm(argc,argv,"-id",str_cmd_prm,in_dir,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-od",str_cmd_prm,out_dir,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-iodf",str_cmd_prm,PolType,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-nwr",int_cmd_prm,&NwinL,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-nwc",int_cmd_prm,&NwinC,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-ofr",int_cmd_prm,&Off_lig,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-ofc",int_cmd_prm,&Off_col,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-fnr",int_cmd_prm,&Sub_Nlig,1,UsageHelp);
-    get_commandline_prm(argc,argv,"-fnc",int_cmd_prm,&Sub_Ncol,1,UsageHelp);
-
+    get_commandline_prm(argc, argv, "-id",  str_cmd_prm, in_dir, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-od",  str_cmd_prm, out_dir, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-iodf",str_cmd_prm, PolType, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-nwr", int_cmd_prm, &NwinL, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-nwc", int_cmd_prm, &NwinC, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-ofr", int_cmd_prm, &Off_lig, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-ofc", int_cmd_prm, &Off_col, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-fnr", int_cmd_prm, &Sub_Nlig, 1, UsageHelp);
+    get_commandline_prm(argc, argv, "-fnc", int_cmd_prm, &Sub_Ncol, 1, UsageHelp);
+ 
     get_commandline_prm(argc,argv,"-errf",str_cmd_prm,file_memerr,0,UsageHelp);
 
     MemoryAlloc = -1; MemoryAlloc = CheckFreeMemory();
@@ -248,7 +248,8 @@ MemAlloc = NBlockA*Nlig + NBlockB
 /* Local Variables */
   NBlockA = 0; NBlockB = 0;
   /* Mask */ 
-  NBlockA += Sub_Ncol+NwinC; NBlockB += NwinL*(Sub_Ncol+NwinC);
+  NBlockA += Sub_Ncol + NwinC;
+  NBlockB += NwinL * (Sub_Ncol + NwinC);
 
   /* Modd = Nlig*Sub_Ncol */
   NBlockA += Sub_Ncol; NBlockB += 0;
@@ -263,23 +264,23 @@ MemAlloc = NBlockA*Nlig + NBlockB
   /* Mtau = Nlig*Sub_Ncol */
   NBlockA += Sub_Ncol; NBlockB = 0;
   /* Min = NpolarOut*Nlig*Sub_Ncol */
-  NBlockA += NpolarOut*(Ncol+NwinC); NBlockB += NpolarOut*NwinL*(Ncol+NwinC);
+  NBlockA += NpolarOut * (Ncol + NwinC);
+  NBlockB += NpolarOut * NwinL * (Ncol + NwinC);
   /* Mavg = NpolarOut */
-  NBlockA += 0; NBlockB += NpolarOut*Sub_Ncol;
+  NBlockA += 0; NBlockB += NpolarOut * Sub_Ncol;
   
 /* Reading Data */
-  NBlockB += Ncol + 2*Ncol + NpolarIn*2*Ncol + NpolarOut*NwinL*(Ncol+NwinC);
-
+  NBlockB += Ncol + 2 * Ncol + NpolarIn * 2 * Ncol + NpolarOut * NwinL * (Ncol + NwinC);
   memory_alloc(file_memerr, Sub_Nlig, NwinL, &NbBlock, NligBlock, NBlockA, NBlockB, MemoryAlloc);
 
 /********************************************************************
 ********************************************************************/
 /* MATRIX ALLOCATION */
 
-  _VC_in = vector_float(2*Ncol);
+  _VC_in = vector_float(2 * Ncol);
   _VF_in = vector_float(Ncol);
-  _MC_in = matrix_float(4,2*Ncol);
-  _MF_in = matrix3d_float(NpolarOut,NwinL, Ncol+NwinC);
+  _MC_in = matrix_float(4, 2 * Ncol);
+  _MF_in = matrix3d_float(NpolarOut, NwinL, Ncol + NwinC);
 
 /*-----------------------------------------------------------------*/   
 
